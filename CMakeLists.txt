@@ -6,6 +6,18 @@ project(MyCUDAProject)
 find_package(Python3 REQUIRED)
 include_directories(${Python3_INCLUDE_DIRS})
 
+# 查找 CUDA
+find_package(CUDA REQUIRED)
+include_directories(${CUDA_INCLUDE_DIRS})
+
+# 查找 cuBLAS 和 cuDNN
+find_library(CUBLAS_LIBRARIES cublas HINTS ${CUDA_TOOLKIT_ROOT_DIR}/lib64)
+find_library(CUDNN_LIBRARIES cudnn HINTS ${CUDA_TOOLKIT_ROOT_DIR}/lib64)
+
+if(NOT CUBLAS_LIBRARIES OR NOT CUDNN_LIBRARIES)
+    message(FATAL_ERROR "cuBLAS or cuDNN not found!")
+endif()
+
 # 设置 CUDA 编译选项
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -O3")
 
