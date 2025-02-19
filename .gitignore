@@ -1,3 +1,4 @@
 ﻿/build
 /test/__pycache__
 .vscode
+.clang-format
